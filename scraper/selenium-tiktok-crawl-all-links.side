@@ -1,0 +1,77 @@
+{
+  "id": "26833d92-0f66-4c65-a344-4fa2ce308e79",
+  "version": "2.0",
+  "name": "selenium-tiktok-crawl-all-links",
+  "url": "https://www.tiktok.com/",
+  "tests": [{
+    "id": "9c133943-a1b1-4916-b7f3-82c078c220be",
+    "name": "Crawl all link",
+    "commands": [{
+      "id": "86d68242-7abe-46d3-aa16-131e89e19c20",
+      "comment": "",
+      "command": "while",
+      "target": "1",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cb8fbabc-4cef-4b1d-8c84-ba1be385cec9",
+      "comment": "",
+      "command": "store",
+      "target": "https://www.tiktok.com/@cedricgrolet",
+      "targets": [],
+      "value": "link"
+    }, {
+      "id": "a4d70ee3-9c1e-437f-aa5f-d400bef14c27",
+      "comment": "",
+      "command": "open",
+      "target": "${link}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4d8177bf-20e4-4122-8434-ff1d41892bd3",
+      "comment": "",
+      "command": "runScript",
+      "target": "var scrollInterval = setInterval(function() {      document.documentElement.scrollTop = document.documentElement.scrollHeight; }, 50);",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c7168b3b-2169-4105-bffa-be47629020db",
+      "comment": "",
+      "command": "//pause",
+      "target": "20000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "05739331-e9b0-478c-b849-8196a86a2efb",
+      "comment": "",
+      "command": "executeAsyncScript",
+      "target": "const links = Array.prototype.map.call(document.querySelectorAll(\"div.tiktok-yz6ijl-DivWrapper.e1cg0wnj1 > a\"), function (e) {   return e.getAttribute('href'); }); links.forEach(link => {     var myHeaders = new Headers(); myHeaders.append(\"Content-Type\", \"application/json\");  var raw = JSON.stringify({   \"link\": link,   \"title\": link });  var requestOptions = {   method: 'POST',   headers: myHeaders,   body: raw,   redirect: 'follow' };  fetch(\"http://127.0.0.1:5000/tiktokLink\", requestOptions)   .then(response => response.text())   .then(result => console.log(result))   .catch(error => console.log('error', error)); })",
+      "targets": [],
+      "value": "matches"
+    }, {
+      "id": "84272f06-c937-4621-82b4-b37cc71ea072",
+      "comment": "",
+      "command": "pause",
+      "target": "40000",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "beb6c4fe-eb91-48a9-8001-f4f251f5d5e1",
+      "comment": "",
+      "command": "end",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "800206e7-05a7-4ec7-ae81-3d458f9d9da2",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["9c133943-a1b1-4916-b7f3-82c078c220be"]
+  }],
+  "urls": ["https://www.tiktok.com/"],
+  "plugins": []
+}
