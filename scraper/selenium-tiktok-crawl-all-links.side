@@ -37,7 +37,7 @@
     }, {
       "id": "c7168b3b-2169-4105-bffa-be47629020db",
       "comment": "",
-      "command": "//pause",
+      "command": "pause",
       "target": "20000",
       "targets": [],
       "value": ""

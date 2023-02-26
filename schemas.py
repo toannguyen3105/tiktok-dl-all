@@ -50,7 +50,18 @@ class PlainTiktokLinkSchema(Schema):
     id = fields.Str(dump_only=True)
     link = fields.Str(required=True)
     title = fields.Str(required=True)
+    status = fields.Int(required=False)
 
 
 class TiktokLinkSchema(PlainTiktokLinkSchema):
     pass
+
+
+class PlainTUpdateStatusTiktokLinkSchema(Schema):
+    status = fields.Int(required=True)
+
+
+class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
+    username = fields.Str(required=True)
+    password = fields.Str(required=True, load_only=True)

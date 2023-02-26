@@ -1,14 +1,14 @@
-import time
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import requests
+import json
 
 
 def downloadVideo(link, id):
     cookies = {
         '_ga': 'GA1.2.1019296552.1675676470',
         '__cflb': '02DiuEcwseaiqqyPC5qqJA27ysjsZzMZ7iCGqJN4dP8DZ',
-        '_gid': 'GA1.2.264650851.1676645313',
+        '_gid': 'GA1.2.1998875232.1676778008',
         '_gat_UA-3524196-6': '1',
     }
 
@@ -17,7 +17,7 @@ def downloadVideo(link, id):
         'accept': '*/*',
         'accept-language': 'en-US,en;q=0.9,vi;q=0.8',
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        # 'cookie': '_ga=GA1.2.1019296552.1675676470; __cflb=02DiuEcwseaiqqyPC5qqJA27ysjsZzMZ7iCGqJN4dP8DZ; _gid=GA1.2.264650851.1676645313; _gat_UA-3524196-6=1',
+        # 'cookie': '_ga=GA1.2.1019296552.1675676470; __cflb=02DiuEcwseaiqqyPC5qqJA27ysjsZzMZ7iCGqJN4dP8DZ; _gid=GA1.2.1998875232.1676778008; _gat_UA-3524196-6=1',
         'hx-current-url': 'https://ssstik.io/en',
         'hx-request': 'true',
         'hx-target': 'target',
@@ -40,7 +40,7 @@ def downloadVideo(link, id):
     data = {
         'id': 'https://www.tiktok.com/@cedricgrolet/video/7196411593922448646',
         'locale': 'en',
-        'tt': 'WGNjaWZk',
+        'tt': 'Z1hnem5l',
     }
 
     response = requests.post('https://ssstik.io/abc', params=params, cookies=cookies, headers=headers, data=data)
@@ -49,24 +49,27 @@ def downloadVideo(link, id):
     downloadLink = downloadSoup.a["href"]
 
     mp4File = urlopen(downloadLink)
-    # Feel free to change the download directory
     with open(f"/home/tony/Documents/Github/tiktok-dl-all/videos/{id}.mp4", "wb") as output:
         while True:
             data = mp4File.read(4096)
             if data:
                 output.write(data)
+
+                url = f"http://127.0.0.1:5000/tiktokLink/update-status/{id}"
+
+                payload = json.dumps({
+                    "status": 1
+                })
+                headers = {
+                    'Content-Type': 'application/json'
+                }
+
+                response = requests.request("PUT", url, headers=headers, data=payload)
+
+                print(response.text)
+
             else:
                 break
 
 
-url = "http://127.0.0.1:5000/tiktokLink"
 
-payload = {}
-headers = {}
-
-response = requests.request("GET", url, headers=headers, data=payload)
-videos = response.json()
-
-for index, video in enumerate(videos):
-    downloadVideo(video['link'], index)
-    time.sleep(10)
