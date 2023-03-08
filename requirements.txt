@@ -7,3 +7,5 @@ requests
 flask-cors
 flask-jwt-extended
 passlib
+flask-migrate
+gunicorn
